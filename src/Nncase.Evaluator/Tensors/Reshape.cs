@@ -130,14 +130,16 @@ public class ReshapeEvaluator : IEvaluator<Reshape>, ITypeInferencer<Reshape>, I
             {
                 if (item is TensorConst tensorConst)
                 {
-                    var value = tensorConst.Value.Cast<int>().Single();
-                    if (value == -1)
+                    foreach (var value in tensorConst.Value.Cast<int>())
                     {
-                        shapeValue.Add(Dimension.Unknown);
-                    }
-                    else
-                    {
-                        shapeValue.Add(value);
+                        if (value == -1)
+                        {
+                            shapeValue.Add(Dimension.Unknown);
+                        }
+                        else
+                        {
+                            shapeValue.Add(value);
+                        }
                     }
                 }
                 else

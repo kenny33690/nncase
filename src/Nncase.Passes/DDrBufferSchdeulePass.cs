@@ -166,6 +166,15 @@ internal sealed class DDrBufferRewriter : ExprRewriter
 
             return memSpan.With(new TensorConst(Tensor.FromPointer((ulong)memRange.Min, @const.CheckedDataType)), memRange.Max - memRange.Min);
         }
+        else if (memSpan is { Location: MemoryLocation.Data, Start: TensorConst startTc, Size: TensorConst sizeTc })
+        {
+            if (!_functionUsage.TryGetValue(memSpan.Location, out var usage))
+            {
+                usage = 0;
+            }
+
+            _functionUsage[memSpan.Location] = Math.Max(usage, (uint)startTc.Value.ToScalar<ulong>() + sizeTc.Value.ToScalar<uint>());
+        }
 
         return memSpan;
     }
