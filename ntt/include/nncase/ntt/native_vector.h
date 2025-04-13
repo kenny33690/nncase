@@ -14,7 +14,14 @@
  */
 #pragma once
 #include "vector.h"
+#define PRINT_TYPE(var) \
+    std::cout << "Type of " << #var << ": " << __PRETTY_FUNCTION__ << std::endl
 
+template<typename T>
+void print_type( T& var) {
+    (void)var;
+    PRINT_TYPE(var);
+}
 #define NTT_BEGIN_DEFINE_NATIVE_VECTOR(element_type_, native_type, ...)        \
     namespace nncase::ntt {                                                    \
     template <> struct vector_storage_traits<element_type_, __VA_ARGS__> {     \
@@ -37,7 +44,8 @@
                                                                                \
     static void set_element(native_type &array, ranked_shape<1> index,         \
                             element_type_ value) noexcept {                    \
-        array[index[0]] = value;                                               \
+        array[index[0]] = value; \
+        std::cout << "arch type set elem[" << index[0] << "] = " << array[index[0]] << " value is: " << value << std::endl; \
     }
 
 #define NTT_BEGIN_DEFINE_NATIVE_VECTOR_DEFAULT_CAST(                           \

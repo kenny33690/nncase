@@ -16,7 +16,15 @@
 #include "../shape.h"
 #include "../utility.h"
 #include <vector>
+#include <iostream>
+#define PRINT_TYPE(var) \
+    std::cout << "Type of " << #var << ": " << __PRETTY_FUNCTION__ << std::endl
 
+template<typename T>
+void print_type(const T& var) {
+    (void)var;
+    PRINT_TYPE(var);
+}
 namespace nncase::ntt {
 template <class T, size_t... Lanes> class basic_vector;
 template <class T, size_t... Lanes> struct vector_storage_traits;
@@ -35,14 +43,28 @@ template <class TTraits, class TIndex> class vector_storage_element_proxy {
         return TTraits::get_element(buffer_, index_);
     }
 
+    friend std::ostream& operator<<(std::ostream& os, const vector_storage_element_proxy& proxy) {
+        os << (element_type)proxy;
+        std::cout << "-----------" <<  (element_type)proxy << "------------" << std::endl;
+        return os;
+    }
+
     constexpr vector_storage_element_proxy &
     operator=(element_type value) noexcept {
+        std::cout << "vector storage get elem[" << "x" << "] = " << value << std::endl;
         TTraits::set_element(buffer_, index_, value);
+        print_type(value);
+        print_type(buffer_);
+        print_type(buffer_[0]);
+        print_type(index_);
+        print_type(*this);
+        std::cout << "this number is: " << (element_type)*this << "origin value: " << ((uint16_t*)this)[0] << "buffer value is: " << buffer_[0] << std::endl;
         return *this;
     }
 
     constexpr vector_storage_element_proxy &
     operator=(const vector_storage_element_proxy &value) noexcept {
+        std::cout << "proxy get elem[" << "x" << "] = " << value << std::endl;
         return operator=((element_type)value);
     }
 
@@ -58,11 +80,13 @@ template <class T, size_t Lane> struct vector_storage_traits<T, Lane> {
 
     static constexpr T &element_at(std::array<T, Lane> &array,
                                    ranked_shape<1> index) noexcept {
+        std::cout << "left here" << std::endl;
         return array[index[0]];
     }
 
     static constexpr const T &element_at(const std::array<T, Lane> &array,
                                          ranked_shape<1> index) noexcept {
+        std::cout << "right here" << std::endl;
         return array[index[0]];
     }
 };

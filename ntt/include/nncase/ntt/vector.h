@@ -70,6 +70,7 @@ class basic_vector
     constexpr decltype(auto)
     operator()(ranked_shape<IndexRank> index) noexcept {
         if constexpr (requires { traits_type::element_at(buffer_, index); }) {
+            std::cout << "+++++++++a+++++++" << std::endl;
             return traits_type::element_at(buffer_, index);
         } else {
             return detail::vector_storage_element_proxy<
@@ -81,8 +82,10 @@ class basic_vector
     constexpr decltype(auto)
     operator()(ranked_shape<IndexRank> index) const noexcept {
         if constexpr (requires { traits_type::element_at(buffer_, index); }) {
+            std::cout << "+++++++++c+++++++" << std::endl;
             return traits_type::element_at(buffer_, index);
         } else {
+            std::cout << "+++++++++d+++++++" << std::endl;
             return traits_type::get_element(buffer_, index);
         }
     }

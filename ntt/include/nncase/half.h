@@ -21,6 +21,7 @@
 #include "bfloat16.h"
 #include <functional>
 #include <limits>
+#include <iostream>
 
 namespace nncase {
 struct fp16_from_raw_t {
@@ -58,14 +59,15 @@ struct half {
 
     template <class T,
               class = std::enable_if_t<std::is_integral<T>::value ||
-                                       std::is_floating_point<T>::value>>
-    explicit half(const T &val) noexcept : half(static_cast<float>(val)) {}
+                                       std::is_floating_point<T>::value ||
+                                       std::is_same_v<T, half>>>
+    explicit half(const T &val) noexcept : half(static_cast<float>(val)) {std::cout << "................" << std::endl;}
 
     half(int &&val) noexcept : half(static_cast<float>(val)) {}
 
     constexpr half(fp16_from_raw_t, uint16_t value) noexcept : value_(value) {}
 
-    operator _Float16() const noexcept{
+    operator _Float16() const noexcept {
         return static_cast<_Float16>(float(*this));
     }
 

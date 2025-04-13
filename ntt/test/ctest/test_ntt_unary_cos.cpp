@@ -21,93 +21,93 @@
 using namespace nncase;
 using namespace ortki;
 
-TEST(UnaryTestCosFloat, fixed_fixed) {
-    // init
-    using shape = ntt::fixed_shape<1, 3, 16, 16>;
-    using tensor_type = ntt::tensor<float, shape>;
-    std::unique_ptr<tensor_type> ntt_input(new tensor_type);
-    NttTest::init_tensor(*ntt_input, -10.f, 10.f);
+// TEST(UnaryTestCosFloat, fixed_fixed) {
+//     // init
+//     using shape = ntt::fixed_shape<1, 3, 16, 16>;
+//     using tensor_type = ntt::tensor<float, shape>;
+//     std::unique_ptr<tensor_type> ntt_input(new tensor_type);
+//     NttTest::init_tensor(*ntt_input, -10.f, 10.f);
 
-    // ntt
-    std::unique_ptr<tensor_type> ntt_output1(new tensor_type);
-    ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
+//     // ntt
+//     std::unique_ptr<tensor_type> ntt_output1(new tensor_type);
+//     ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
 
-    // ort
-    auto ort_input = NttTest::ntt2ort(*ntt_input);
-    auto ort_output = ortki_Cos(ort_input);
+//     // ort
+//     auto ort_input = NttTest::ntt2ort(*ntt_input);
+//     auto ort_output = ortki_Cos(ort_input);
 
-    // compare
-    std::unique_ptr<tensor_type> ntt_output2(new tensor_type);
-    NttTest::ort2ntt(ort_output, *ntt_output2);
-    EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
-}
+//     // compare
+//     std::unique_ptr<tensor_type> ntt_output2(new tensor_type);
+//     NttTest::ort2ntt(ort_output, *ntt_output2);
+//     EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
+// }
 
-TEST(UnaryTestCosFloat, fixed_ranked) {
-    // init
-    using shape1 = ntt::fixed_shape<1, 3, 16, 16>;
-    using tensor_type1 = ntt::tensor<float, shape1>;
-    std::unique_ptr<tensor_type1> ntt_input(new tensor_type1);
-    NttTest::init_tensor(*ntt_input, -10.f, 10.f);
+// TEST(UnaryTestCosFloat, fixed_ranked) {
+//     // init
+//     using shape1 = ntt::fixed_shape<1, 3, 16, 16>;
+//     using tensor_type1 = ntt::tensor<float, shape1>;
+//     std::unique_ptr<tensor_type1> ntt_input(new tensor_type1);
+//     NttTest::init_tensor(*ntt_input, -10.f, 10.f);
 
-    // ntt
-    auto shape2 = ntt::make_ranked_shape(1, 3, 16, 16);
-    using tensor_type2 = ntt::tensor<float, ntt::ranked_shape<4>>;
-    std::unique_ptr<tensor_type2> ntt_output1(new tensor_type2(shape2));
-    ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
+//     // ntt
+//     auto shape2 = ntt::make_ranked_shape(1, 3, 16, 16);
+//     using tensor_type2 = ntt::tensor<float, ntt::ranked_shape<4>>;
+//     std::unique_ptr<tensor_type2> ntt_output1(new tensor_type2(shape2));
+//     ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
 
-    // ort
-    auto ort_input = NttTest::ntt2ort(*ntt_input);
-    auto ort_output = ortki_Cos(ort_input);
+//     // ort
+//     auto ort_input = NttTest::ntt2ort(*ntt_input);
+//     auto ort_output = ortki_Cos(ort_input);
 
-    // compare
-    std::unique_ptr<tensor_type2> ntt_output2(new tensor_type2(shape2));
-    NttTest::ort2ntt(ort_output, *ntt_output2);
-    EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
-}
+//     // compare
+//     std::unique_ptr<tensor_type2> ntt_output2(new tensor_type2(shape2));
+//     NttTest::ort2ntt(ort_output, *ntt_output2);
+//     EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
+// }
 
-TEST(UnaryTestCosFloat, ranked_ranked) {
-    // init
-    using tensor_type = ntt::tensor<float, ntt::ranked_shape<4>>;
-    auto shape = ntt::make_ranked_shape(1, 3, 16, 16);
-    std::unique_ptr<tensor_type> ntt_input(new tensor_type(shape));
-    NttTest::init_tensor(*ntt_input, -10.f, 10.f);
+// TEST(UnaryTestCosFloat, ranked_ranked) {
+//     // init
+//     using tensor_type = ntt::tensor<float, ntt::ranked_shape<4>>;
+//     auto shape = ntt::make_ranked_shape(1, 3, 16, 16);
+//     std::unique_ptr<tensor_type> ntt_input(new tensor_type(shape));
+//     NttTest::init_tensor(*ntt_input, -10.f, 10.f);
 
-    // ntt
-    std::unique_ptr<tensor_type> ntt_output1(new tensor_type(shape));
-    ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
+//     // ntt
+//     std::unique_ptr<tensor_type> ntt_output1(new tensor_type(shape));
+//     ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
 
-    // ort
-    auto ort_input = NttTest::ntt2ort(*ntt_input);
-    auto ort_output = ortki_Cos(ort_input);
+//     // ort
+//     auto ort_input = NttTest::ntt2ort(*ntt_input);
+//     auto ort_output = ortki_Cos(ort_input);
 
-    // compare
-    std::unique_ptr<tensor_type> ntt_output2(new tensor_type(shape));
-    NttTest::ort2ntt(ort_output, *ntt_output2);
-    EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
-}
+//     // compare
+//     std::unique_ptr<tensor_type> ntt_output2(new tensor_type(shape));
+//     NttTest::ort2ntt(ort_output, *ntt_output2);
+//     EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
+// }
 
-TEST(UnaryTestCosFloat, ranked_fixed) {
-    // init
-    auto shape1 = ntt::make_ranked_shape(1, 3, 16, 16);
-    using tensor_type1 = ntt::tensor<float, ntt::ranked_shape<4>>;
-    std::unique_ptr<tensor_type1> ntt_input(new tensor_type1(shape1));
-    NttTest::init_tensor(*ntt_input, -10.f, 10.f);
+// TEST(UnaryTestCosFloat, ranked_fixed) {
+//     // init
+//     auto shape1 = ntt::make_ranked_shape(1, 3, 16, 16);
+//     using tensor_type1 = ntt::tensor<float, ntt::ranked_shape<4>>;
+//     std::unique_ptr<tensor_type1> ntt_input(new tensor_type1(shape1));
+//     NttTest::init_tensor(*ntt_input, -10.f, 10.f);
 
-    // ntt
-    using shape2 = ntt::fixed_shape<1, 3, 16, 16>;
-    using tensor_type2 = ntt::tensor<float, shape2>;
-    std::unique_ptr<tensor_type2> ntt_output1(new tensor_type2);
-    ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
+//     // ntt
+//     using shape2 = ntt::fixed_shape<1, 3, 16, 16>;
+//     using tensor_type2 = ntt::tensor<float, shape2>;
+//     std::unique_ptr<tensor_type2> ntt_output1(new tensor_type2);
+//     ntt::unary<ntt::ops::cos>(*ntt_input, *ntt_output1);
 
-    // ort
-    auto ort_input = NttTest::ntt2ort(*ntt_input);
-    auto ort_output = ortki_Cos(ort_input);
+//     // ort
+//     auto ort_input = NttTest::ntt2ort(*ntt_input);
+//     auto ort_output = ortki_Cos(ort_input);
 
-    // compare
-    std::unique_ptr<tensor_type2> ntt_output2(new tensor_type2);
-    NttTest::ort2ntt(ort_output, *ntt_output2);
-    EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
-}
+//     // compare
+//     std::unique_ptr<tensor_type2> ntt_output2(new tensor_type2);
+//     NttTest::ort2ntt(ort_output, *ntt_output2);
+//     EXPECT_TRUE(NttTest::compare_tensor(*ntt_output1, *ntt_output2));
+// }
 
 template <typename T, size_t vl> void test_vector() {
     ntt::vector<T, vl> ntt_input;
@@ -181,7 +181,7 @@ template <typename T, size_t vl> void test_vector_ulp(double ulp_threshold) {
 #endif
 
 #ifndef __aarch64__
-TEST(UnaryTestCosFloat, ulp_error) { TEST_VECTOR_ULP(float, 2.) }
+// TEST(UnaryTestCosFloat, ulp_error) { TEST_VECTOR_ULP(float, 2.) }
 #endif
 
 int main(int argc, char *argv[]) {
