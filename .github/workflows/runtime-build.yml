@@ -40,7 +40,7 @@ jobs:
       - name: Install Conan
         run: |
           pip install conan==2.6.0
-          conan remote add -i 0 sunnycase https://conan.sunnycase.moe
+          conan remote add sunnycase https://conan.sunnycase.moe --index 0
 
       - name: Configure
         shell: bash
