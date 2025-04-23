@@ -52,15 +52,15 @@ class nncaseConan(ConanFile):
 
         if self.options.tests:
             self.requires('gtest/1.10.0')
-            self.requires('ortki/0.0.2')
+            self.requires('ortki/0.0.4')
             self.requires('rapidjson/1.1.x')
 
         if self.options.python:
-            self.requires('pybind11/2.12.0')
+            self.requires('pybind11/2.12.1')
 
         if not self.options.runtime:
             self.requires('abseil/20220623.1')
-            self.requires('nethost/6.0.11')
+            self.requires('nethost/8.0.8')
             self.requires('fmt/7.1.3')
             self.requires('magic_enum/0.7.0')
             self.requires('spdlog/1.8.2')
@@ -68,9 +68,9 @@ class nncaseConan(ConanFile):
             if self.options.tests:
                 self.requires('gtest/1.10.0')
 
-        if (not self.options.runtime) or self.options.vulkan_runtime:
-            self.requires('vulkan-headers/1.2.182')
-            self.requires('vulkan-loader/1.2.182')
+        # if (not self.options.runtime) or self.options.vulkan_runtime:
+        #     self.requires('vulkan-headers/1.2.182')
+        #     self.requires('vulkan-loader/1.2.182')
 
     def build_requirements(self):
         pass
